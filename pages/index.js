@@ -29,16 +29,15 @@ export const getStaticProps = async () => {
 
 
   const data = await graphQLClient.request(query);
+  const matches = data.matches;
 
-  console.log(data);
-
-  return {props: data}
+  return {props: matches}
 };
 
 
-function Home(props) {
+function Home({matches}) {
 
-  console.log(props);
+  console.log(matches);
   return <div className={styles.container}>Container</div>;
 }
 
