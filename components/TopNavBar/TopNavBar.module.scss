@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    padding: 16px 36px 16px 36px;
+    z-index: 1000;
+}
+
+.profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+
+    .profilePicture {
+        border-radius: 10px;
+    }
+
+    p {
+        font-size: 12px;
+        margin-right: 16px;
+        font-weight: 700;
+    }
+}

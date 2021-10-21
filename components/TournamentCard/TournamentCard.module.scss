@@ -13,12 +13,10 @@
     right: 0px;
     bottom: 0px;
     left: 0px;
-    background-color: rgba(0, 0, 0, 0.212);
+    background-color: rgba(0, 0, 0, 0);
     z-index: 1;
   }
-  > {
-    z-index: 100;
-  }
+  
   .details {
     font-size: 13px;
     text-align: start;
@@ -31,6 +29,7 @@
       margin: 0;
     }
   }
+  
   .innerContent {
     display: flex;
     flex-direction: column;
