@@ -13,32 +13,39 @@ export const getStaticProps = async () => {
   });
 
   const query = gql`
-  query {
-    matches {
-      id
-      title
-      startDate
-      tags
-      slug
-      thumbnail {
+    query {
+      matches {
         id
+        title
+        startDate
+        tags
+        slug
+        thumbnail {
+          id
+        }
       }
     }
-  }
-`;
-
+  `;
 
   const data = await graphQLClient.request(query);
-  const matches = data.matches;
+  const matches = data;
 
-  return {props: matches}
+  return {
+    props: matches,
+  };
 };
 
-
-function Home({matches}) {
-
+function Home({ matches }) {
   console.log(matches);
-  return <div className={styles.container}>Container</div>;
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <p>Discover #BRANDNAME</p>
+        <h2 className={styles.headerTitle}>Some tagline here is nice</h2>
+        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation"</p>
+      </div>
+    </div>
+  );
 }
 
 export default Home;
