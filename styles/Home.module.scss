@@ -1,0 +1,34 @@
+.container {
+  min-height: 100vh;
+  height: 100vh;
+  color: white;
+}
+
+.headerTitle {
+  font-size: 45px;
+  max-width: 600px;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20% 20% 20% 20%;
+  background: linear-gradient(0deg, rgb(22, 2, 59) 0%, rgba(2,0,36,1) 100%);
+  height: 750px;
+}
+
+.runningEvents {
+  text-align: center;
+  padding: 5% 0 0 0;
+  height: 750px;
+  background-color: rgba(2,0,36,1);
+}
+
+.carouselBlock {
+  width: 100%;
+  display: flex;
+}
