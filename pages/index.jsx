@@ -1,11 +1,12 @@
 import { gql, GraphQLClient } from "graphql-request";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import TopNavBar from "../components/TopNavBar/TopNavBar";
 import TournamentCard from "../components/TournamentCard/TournamentCard";
 import downArrow from "../public/scroll-arrow.svg";
 import styles from "../styles/Home.module.scss";
+import { Modal } from 'antd';
 
 export const getStaticProps = async () => {
   const url = process.env.ENDPOINT;
@@ -68,15 +69,33 @@ export const getStaticProps = async () => {
 
 function Home({ tournaments, matches }) {
   const scrollBtnRef = useRef();
+  const [modalVisability, setModalVisiability] = useState(false);
+  const [dataForModal, setDataForModal] = useState(null);
 
   const handleScrollBtn = () => {
     scrollBtnRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
+  const triggerModal = (data) => {
+    setDataForModal(data);
+    setModalVisiability(true);
+  }
   return (
     <div className={styles.container}>
       <TopNavBar />
 
+      <Modal
+        title="Modal 1000px width"
+        centered
+        visible={modalVisability}
+        onOk={() => setModalVisiability(false)}
+        onCancel={() => setModalVisiability(false)}
+        width={1000}
+        className={styles.modal}
+        
+      >
+        
+      </Modal>
 
       <div className={styles.header}>
         <p style={{color: "orange"}}>Discover #BRANDNAME</p>
@@ -91,11 +110,11 @@ function Home({ tournaments, matches }) {
       </div>
 
       <div className={styles.runningEvents}>
-        <h2>Current tournaments</h2>
-        <div className={styles.eventGrid} ref={scrollBtnRef}>
+        <h2>Available tournaments</h2>
+        <div className={styles.eventGrid} ref={scrollBtnRef} >
           {tournaments.map((tournament) => {
             return (
-              <div className={styles.carouselBlock} key={tournament.id}>
+              <div key={tournament.id} onClick={() => triggerModal(tournament)}> 
                 <TournamentCard
                   data={tournament}
                 />
@@ -104,11 +123,11 @@ function Home({ tournaments, matches }) {
           })}
         </div>
 
-        <h2>Current matches</h2>
+        <h2>Available matches</h2>
         <div className={styles.eventGrid} ref={scrollBtnRef}>
           {matches.map((match) => {
             return (
-              <div className={styles.carouselBlock} key={match.id}>
+              <div  key={match.id}>
                 <TournamentCard
                   data={match}
                 />

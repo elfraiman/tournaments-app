@@ -1,7 +1,7 @@
 import styles from "./TopNavBar.module.scss";
 import { useAuth0 } from "@auth0/auth0-react";
 import Image from "next/image";
-import Button from 'rsuite/Button';
+import { Button } from 'antd';
 
 const TopNavBar = () => {
   const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
@@ -25,7 +25,7 @@ const TopNavBar = () => {
             />
           </div>
         ) : (
-          <Button appearance="primary" onClick={() => loginWithRedirect()}>Log In</Button>
+          <Button type="ghost" onClick={() => loginWithRedirect()}>Log In</Button>
         )}
       </div>
     </div>
