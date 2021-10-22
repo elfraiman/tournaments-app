@@ -6,8 +6,6 @@ import { Button } from 'antd';
 const TopNavBar = () => {
   const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
 
-  console.log(user, isAuthenticated);
-
   return (
     <div className={styles.container}>
       <h2>#BRANDNAME</h2>
@@ -25,7 +23,7 @@ const TopNavBar = () => {
             />
           </div>
         ) : (
-          <Button type="ghost" onClick={() => loginWithRedirect()}>Log In</Button>
+          <Button type="primary" color="secondary" onClick={() => loginWithRedirect()}>Log In</Button>
         )}
       </div>
     </div>

@@ -2,9 +2,9 @@
 const withLess = require("next-with-less");
 
 module.exports = withLess({
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
-    domains: ['cdn.discordapp.com', 'lh3.googleusercontent.com'],
+    domains: ['cdn.discordapp.com', 'lh3.googleusercontent.com', 'media.graphcms.com'],
   },
   lessLoaderOptions: {
     /* ... */

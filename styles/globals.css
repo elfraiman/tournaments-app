@@ -18,3 +18,19 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.ant-modal-body {
+  border-bottom-color: rgb(34, 26, 185)  !important;
+  background-color: rgb(2, 0, 36)  !important;
+}
+
+.ant-modal-header {
+  background-color: rgb(2, 0, 36)  !important;
+  border-bottom-color: rgb(34, 26, 185)  !important;
+}
+
+.ant-modal-footer {
+  background-color: rgb(2, 0, 36)  !important;
+  border-top-color: rgb(34, 26, 185)  !important;
+}
+
