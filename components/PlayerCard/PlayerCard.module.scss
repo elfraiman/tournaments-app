@@ -1,0 +1,32 @@
+.card {
+    width: 100%;
+    border-radius: 10px;
+    background-color: rgb(39, 12, 88);
+    border: none;
+  
+    .details {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+
+        .text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            margin-top: 6px;
+        }
+        img {
+            border-radius: 10px;
+        }
+        p {
+            margin-left: 16px;
+        }
+
+    }
+  }
+  
+  .ant-card-body {
+      padding: 6px !important;
+  }

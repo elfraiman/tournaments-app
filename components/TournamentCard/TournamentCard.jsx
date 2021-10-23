@@ -14,8 +14,9 @@ const trans = (x, y, s) =>
 const TournamentCard = (props) => {
   const [animationProps, setAnimationProps] = useSpring(() => ({
     xys: [0, 0, 1],
-    config: { mass: 5, tension: 350, friction: 40 },
+    config: { mass: 15, tension: 250, friction: 70 },
   }));
+
   return (
     <animated.div
       onMouseMove={({ clientX: x, clientY: y }) =>
@@ -27,7 +28,7 @@ const TournamentCard = (props) => {
       <div
         className={styles.card}
         style={{
-          backgroundImage: `url(${props.data.thumbnail.url})`,
+          backgroundImage: `url(${props.data.thumbnail?.url})`,
           backgroundSize: "cover",
         }}
       >

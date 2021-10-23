@@ -42,6 +42,13 @@
           font-weight: 700;
         }
 
+        h6 {
+          font-size: 15px;
+          font-weight: 700;
+          color: #f9b150;
+          line-height: 32px;
+        }
+
         .registerButton {
           width: 100%;
         }
@@ -58,14 +65,29 @@
         }
 
         dt {
-            font-weight: 700;
-            font-size: 13px;
+          font-weight: 700;
+          font-size: 13px;
         }
 
-        dd, span {
-            margin-bottom: 16px;
+        dd,
+        span {
+          margin-bottom: 16px;
         }
       }
+    }
+
+    .matches {
+      display: grid;
+      grid-template: auto / 1fr 1fr 1fr;
+      grid-gap: 32px;
+      min-height: 600px;
+    }
+
+    .commanders {
+      display: grid;
+      grid-template: auto / 1fr 1fr 1fr;
+      grid-gap: 32px;
+      min-height: 600px;
     }
   }
 }

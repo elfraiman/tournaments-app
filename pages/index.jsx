@@ -6,7 +6,7 @@ import TopNavBar from "../components/TopNavBar/TopNavBar";
 import TournamentCard from "../components/TournamentCard/TournamentCard";
 import downArrow from "../public/scroll-arrow.svg";
 import styles from "../styles/Home.module.scss";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 export const getStaticProps = async () => {
   const url = process.env.ENDPOINT;
@@ -48,6 +48,9 @@ export const getStaticProps = async () => {
         id
         numberOfParticipants
         maxNumberOfParticipants
+        tournament {
+          id
+        }
         thumbnail {
           url
         }
@@ -75,18 +78,17 @@ function Home({ tournaments, matches }) {
     scrollBtnRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
-  console.log(tournaments)
   return (
     <div className={styles.container}>
       <TopNavBar />
 
       <div className={styles.header}>
-        <p style={{ color: "orange" }}>Discover #BRANDNAME</p>
-        <h2 className={styles.headerTitle}>Some tagline here is nice</h2>
+        <p style={{ color: "orange" }}>Discover THENEXUS</p>
+        <h2 className={styles.headerTitle}>Meet & Compete</h2>
         <p>
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation"
+          Meet likeminded players to enjoy a friendly round with or, join one of
+          our offical Tournaments and climb the rankings. Its time to show the
+          galaxy who the true ruler is.
         </p>
 
         <Image src={downArrow} alt="arrow" onClick={() => handleScrollBtn()} />
@@ -97,7 +99,10 @@ function Home({ tournaments, matches }) {
         <div className={styles.eventGrid} ref={scrollBtnRef}>
           {tournaments.map((tournament) => {
             return (
-              <div key={tournament.id} onClick={() => router.push(`tournament/${tournament?.slug}`)}>
+              <div
+                key={tournament.id}
+                onClick={() => router.push(`tournament/${tournament?.slug}`)}
+              >
                 <TournamentCard data={tournament} />
               </div>
             );
@@ -107,11 +112,13 @@ function Home({ tournaments, matches }) {
         <h2>Available matches</h2>
         <div className={styles.eventGrid} ref={scrollBtnRef}>
           {matches.map((match) => {
-            return (
-              <div key={match.id}>
-                <TournamentCard data={match} />
-              </div>
-            );
+            if (!match.tournament) {
+              return (
+                <div key={match.id}>
+                  <TournamentCard data={match} />
+                </div>
+              );
+            }
           })}
         </div>
       </div>

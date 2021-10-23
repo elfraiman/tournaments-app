@@ -5,7 +5,11 @@
     position: fixed;
     top: 0;
     padding: 16px 36px 16px 36px;
-    z-index: 1000;
+    z-index: 1000000;
+
+    h2 {
+        cursor: pointer;
+    }
 }
 
 .profile {
