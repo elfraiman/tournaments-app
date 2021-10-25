@@ -1,12 +1,11 @@
+import { Select } from "antd";
 import { gql, GraphQLClient } from "graphql-request";
-import Image from "next/image";
-import { useRef } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import TopNavBar from "../components/TopNavBar/TopNavBar";
 import TournamentCard from "../components/TournamentCard/TournamentCard";
-import downArrow from "../public/scroll-arrow.svg";
 import styles from "../styles/Home.module.scss";
-import { useRouter } from "next/router";
 
 export const getStaticProps = async () => {
   const url = process.env.ENDPOINT;
@@ -26,6 +25,7 @@ export const getStaticProps = async () => {
         endDate
         tags
         slug
+        matchType
         numberOfParticipants
         maxNumberOfParticipants
         thumbnail {
@@ -48,6 +48,7 @@ export const getStaticProps = async () => {
         id
         numberOfParticipants
         maxNumberOfParticipants
+        matchType
         tournament {
           id
         }
@@ -73,10 +74,30 @@ export const getStaticProps = async () => {
 function Home({ tournaments, matches }) {
   const scrollBtnRef = useRef();
   const router = useRouter();
+  const [eventsToRender, setEventsToRender] = useState([]);
+  const { Option } = Select;
 
   const handleScrollBtn = () => {
     scrollBtnRef.current.scrollIntoView({ behavior: "smooth" });
   };
+
+  function handleSelect(value) {
+
+  }
+
+  useEffect(() => {
+    const arrayOfEvents = tournaments
+      .concat(matches)
+      .filter((event) => !event.tournament);
+
+    setEventsToRender(arrayOfEvents);
+  }, [tournaments, matches]);
+
+  useEffect(() => {
+    const arrayOfEvents = tournaments
+      .concat(matches)
+      .filter((event) => !event.tournament);
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -87,39 +108,70 @@ function Home({ tournaments, matches }) {
         <h2 className={styles.headerTitle}>Meet & Compete</h2>
         <p>
           Meet likeminded players to enjoy a friendly round with or, join one of
-          our offical Tournaments and climb the rankings. Its time to show the
+          our official Tournaments and climb the rankings. Its time to show the
           galaxy who the true ruler is.
         </p>
-
-        <Image src={downArrow} alt="arrow" onClick={() => handleScrollBtn()} />
       </div>
 
       <div className={styles.runningEvents}>
-        <h2>Available tournaments</h2>
-        <div className={styles.eventGrid} ref={scrollBtnRef}>
-          {tournaments.map((tournament) => {
-            return (
-              <div
-                key={tournament.id}
-                onClick={() => router.push(`tournament/${tournament?.slug}`)}
-              >
-                <TournamentCard data={tournament} />
-              </div>
-            );
-          })}
-        </div>
+        <div className={styles.innerRunningEvents}>
+          <div className={styles.filterBar}>
+            <h2>Browse events</h2>
 
-        <h2>Available matches</h2>
-        <div className={styles.eventGrid} ref={scrollBtnRef}>
-          {matches.map((match) => {
-            if (!match.tournament) {
+            <div>
+              <Select
+                defaultValue="any"
+                onChange={handleSelect}
+                className={styles.select}
+                placeholder="Mode"
+                dropdownStyle={{ backgroundColor: "#4a14a1" }}
+              >
+                <Option value="any" className={styles.dropDownValue}>
+                  Any
+                </Option>
+                <Option value="pvp" className={styles.dropDownValue}>
+                  PVP
+                </Option>
+                <Option value="pve" className={styles.dropDownValue}>
+                  PVE
+                </Option>
+                <Option value="rp" className={styles.dropDownValue}>
+                  RP
+                </Option>
+              </Select>
+
+              <Select
+                defaultValue="any"
+                onChange={handleSelect}
+                className={styles.select}
+                placeholder="Type"
+                dropdownStyle={{ backgroundColor: "#4a14a1", color: "black" }}
+              >
+                <Option value="any" className={styles.dropDownValue}>
+                  Any
+                </Option>
+                <Option value="match" className={styles.dropDownValue}>
+                  Single match
+                </Option>
+                <Option value="tournament" className={styles.dropDownValue}>
+                  Tournament
+                </Option>
+              </Select>
+            </div>
+          </div>
+
+          <div className={styles.eventGrid} ref={scrollBtnRef}>
+            {eventsToRender.map((tournament) => {
               return (
-                <div key={match.id}>
-                  <TournamentCard data={match} />
+                <div
+                  key={tournament.id}
+                  onClick={() => router.push(`tournament/${tournament?.slug}`)}
+                >
+                  <TournamentCard data={tournament} />
                 </div>
               );
-            }
-          })}
+            })}
+          </div>
         </div>
       </div>
     </div>

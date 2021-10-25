@@ -38,6 +38,7 @@ export const getServerSideProps = async (pageContext) => {
           html
         }
         slug
+        matchType
         players {
           picture
           name

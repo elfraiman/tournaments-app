@@ -6,8 +6,6 @@ export default async ({ body }, response) => {
     headers: { Authorization: process.env.GRAPH_CMS_TOKEN },
   });
 
-  console.log(body, "body in query");
-
   await graphCMS.request(
     `
     mutation registerPlayerToTournament($email: String!, $tournamentId: ID!) {
