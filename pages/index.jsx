@@ -75,14 +75,29 @@ function Home({ tournaments, matches }) {
   const scrollBtnRef = useRef();
   const router = useRouter();
   const [eventsToRender, setEventsToRender] = useState([]);
+  const [gameTypeEvents, setGameTypeEvents] = useState(null);
+  const [eventTypeEvents, setEventTypeEvents] = useState(null);
+
   const { Option } = Select;
 
   const handleScrollBtn = () => {
     scrollBtnRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
-  function handleSelect(value) {
+  function handleFilter(value) {
+    const arrayOfEvents = tournaments
+      .concat(matches)
+      .filter((event) => !event.tournament);
 
+    if ( value === "any") {
+      setEventsToRender(arrayOfEvents)
+    } else {
+      if (value === "tournament") {
+        setEventsToRender(arrayOfEvents.filter(event => event.matches))
+      } else {
+        setEventsToRender(arrayOfEvents.filter(event => !event.matches))
+      }
+    }
   }
 
   useEffect(() => {
@@ -91,13 +106,18 @@ function Home({ tournaments, matches }) {
       .filter((event) => !event.tournament);
 
     setEventsToRender(arrayOfEvents);
+
+    setGameTypeEvents(arrayOfEvents);
+    setEventTypeEvents(arrayOfEvents);
   }, [tournaments, matches]);
 
   useEffect(() => {
     const arrayOfEvents = tournaments
       .concat(matches)
       .filter((event) => !event.tournament);
-  }, []);
+
+      console.log(eventTypeEvents, gameTypeEvents);
+  }, [eventTypeEvents, gameTypeEvents]);
 
   return (
     <div className={styles.container}>
@@ -121,7 +141,7 @@ function Home({ tournaments, matches }) {
             <div>
               <Select
                 defaultValue="any"
-                onChange={handleSelect}
+                onChange={handleFilter}
                 className={styles.select}
                 placeholder="Mode"
                 dropdownStyle={{ backgroundColor: "#4a14a1" }}
@@ -142,7 +162,7 @@ function Home({ tournaments, matches }) {
 
               <Select
                 defaultValue="any"
-                onChange={handleSelect}
+                onChange={handleFilter}
                 className={styles.select}
                 placeholder="Type"
                 dropdownStyle={{ backgroundColor: "#4a14a1", color: "black" }}
