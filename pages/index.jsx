@@ -7,6 +7,7 @@ import TopNavBar from "../components/TopNavBar/TopNavBar";
 import TournamentCard from "../components/TournamentCard/TournamentCard";
 import styles from "../styles/Home.module.scss";
 
+
 export const getStaticProps = async () => {
   const url = process.env.ENDPOINT;
 
@@ -26,7 +27,6 @@ export const getStaticProps = async () => {
         tags
         slug
         matchType
-        numberOfParticipants
         maxNumberOfParticipants
         thumbnail {
           url
@@ -46,7 +46,6 @@ export const getStaticProps = async () => {
       matches {
         title
         id
-        numberOfParticipants
         maxNumberOfParticipants
         matchType
         tournament {

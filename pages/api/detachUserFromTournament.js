@@ -8,30 +8,29 @@ export default async ({ body }, response) => {
 
   await graphCMS.request(
     `
-    mutation registerPlayerToTournament($email: String!, $tournamentId: ID!) {
+    mutation unregisterPlayer($email: String!, $tournamentId: ID!) {
+        __typename
+        updatePlayer(
+          data: {tournament: {disconnect: {id: $tournamentId}}}
+          where: {email: $email}
+        ) {
+          id
+        }
         updateTournament(
-          data: {players: {connect: {where: {email: $email}}}}
+          data: {players: {disconnect: {email: $email}}}
           where: {id: $tournamentId}
         ) {
           id
         }
+        publishTournament(where: {id: $tournamentId}, to: PUBLISHED) {
+          id
+        }
+        publishPlayer(where: {email: $email}, to: PUBLISHED) {
+          id
+        }
       }
-      
-          `,
+        `,
     { email: body.email, tournamentId: body.tournamentId }
-  );
-
-  await graphCMS.request(
-    `
-    mutation executePlayerPublish($email: String!) {
-      __typename
-      publishPlayer(where: {email: $email}) {
-        id
-      }
-    }
-    
-  `,
-    { email: body.email }
   );
 
   response.status(201).json({ id: body.id });

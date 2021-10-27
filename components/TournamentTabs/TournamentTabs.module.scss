@@ -1,0 +1,62 @@
+.infoTab {
+  display: grid;
+  grid-template: auto / 1fr 0.5fr;
+  grid-gap: 32px;
+  justify-content: center;
+  .card {
+    background-color: rgb(39, 12, 88);
+    border: none;
+    border-radius: 10px;
+
+    h3 {
+      color: #f9b150;
+      font-weight: 700;
+    }
+
+    h6 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #f9b150;
+      line-height: 32px;
+    }
+
+    .registerButton {
+      width: 100%;
+    }
+  }
+
+  .bottomCard {
+    background-color: rgb(39, 12, 88);
+    border: none;
+    border-radius: 10px;
+    margin-top: 16px;
+
+    h4 {
+      font-weight: 700;
+    }
+
+    dt {
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    dd,
+    span {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+.matches {
+  display: grid;
+  grid-template: auto / 1fr 1fr 1fr;
+  grid-gap: 32px;
+  min-height: 600px;
+}
+
+.commanders {
+  display: grid;
+  grid-template: auto / 1fr 1fr 1fr;
+  grid-gap: 32px;
+  min-height: 600px;
+}
