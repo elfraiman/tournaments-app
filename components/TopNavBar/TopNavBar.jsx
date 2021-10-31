@@ -11,10 +11,9 @@ const TopNavBar = () => {
   const createCMSPlayer = async () => {
     await loginWithPopup();
   };
-
+/* 
   useEffect(async () => {
     if (user || isAuthenticated) {
-      console.log(user, "user to fetch");
       await fetch("/api/createPlayer", {
         method: "POST",
         headers: {
@@ -29,7 +28,7 @@ const TopNavBar = () => {
         .catch((error) => console.error(error));
     }
   }, [user?.sub]);
-
+ */
   return (
     <div className={styles.container}>
       <h2 onClick={() => router.push("/")}>THENEXUS</h2>

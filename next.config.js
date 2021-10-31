@@ -9,6 +9,7 @@ module.exports = withLess({
       "cdn.discordapp.com",
       "lh3.googleusercontent.com",
       "media.graphcms.com",
+      "s.gravatar.com"
     ],
   },
   lessLoaderOptions: {

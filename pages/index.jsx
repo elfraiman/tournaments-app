@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import TopNavBar from "../components/TopNavBar/TopNavBar";
 import TournamentCard from "../components/TournamentCard/TournamentCard";
+import MatchCard from "../components/MatchCard/MatchCard";
 import styles from "../styles/Home.module.scss";
-
 
 export const getStaticProps = async () => {
   const url = process.env.ENDPOINT;
@@ -31,6 +31,9 @@ export const getStaticProps = async () => {
         thumbnail {
           url
         }
+        players {
+          email
+        }
         matches {
           id
           slug
@@ -41,12 +44,14 @@ export const getStaticProps = async () => {
 
   const tournamentsResponse = await graphQLClient.request(tournamentsQuery);
 
-  const matchsQuery = gql`
+  const matchesQuery = gql`
     query {
       matches {
         title
         id
         maxNumberOfParticipants
+        tournamentRound
+        startDate
         matchType
         tournament {
           id
@@ -58,7 +63,7 @@ export const getStaticProps = async () => {
     }
   `;
 
-  const matchesResponse = await graphQLClient.request(matchsQuery);
+  const matchesResponse = await graphQLClient.request(matchesQuery);
 
   const responses = await Promise.all([tournamentsResponse, matchesResponse]);
 
@@ -73,9 +78,10 @@ export const getStaticProps = async () => {
 function Home({ tournaments, matches }) {
   const scrollBtnRef = useRef();
   const router = useRouter();
-  const [eventsToRender, setEventsToRender] = useState([]);
-  const [gameTypeEvents, setGameTypeEvents] = useState(null);
-  const [eventTypeEvents, setEventTypeEvents] = useState(null);
+  const [tournamentsToRender, setTournamentsToRender] = useState(tournaments);
+  const [matchesToRender, setMatchesToRender] = useState(
+    matches.filter((event) => !event.tournament)
+  );
 
   const { Option } = Select;
 
@@ -88,13 +94,16 @@ function Home({ tournaments, matches }) {
       .concat(matches)
       .filter((event) => !event.tournament);
 
-    if ( value === "any") {
-      setEventsToRender(arrayOfEvents)
+    if (value === "any") {
+      setTournamentsToRender(arrayOfEvents.filter((event) => event.matches));
+      setMatchesToRender(arrayOfEvents.filter((event) => !event.matches));
     } else {
       if (value === "tournament") {
-        setEventsToRender(arrayOfEvents.filter(event => event.matches))
+        setTournamentsToRender(arrayOfEvents.filter((event) => event.matches));
+        setMatchesToRender([])
       } else {
-        setEventsToRender(arrayOfEvents.filter(event => !event.matches))
+        setMatchesToRender(arrayOfEvents.filter((event) => !event.matches));
+        setTournamentsToRender([])
       }
     }
   }
@@ -102,22 +111,18 @@ function Home({ tournaments, matches }) {
   useEffect(() => {
     const arrayOfEvents = tournaments
       .concat(matches)
-      .filter((event) => !event.tournament);
+      .filter((event) => !event.tournament); // If an event has a tournament attached it is an event specifically for that tournament
 
-    setEventsToRender(arrayOfEvents);
-
-    setGameTypeEvents(arrayOfEvents);
-    setEventTypeEvents(arrayOfEvents);
+    setTournamentsToRender(() =>
+      arrayOfEvents.filter((event) => event.matches)
+    ); // If an event has matches it is a tournament
+    setMatchesToRender(() => arrayOfEvents.filter((event) => !event.matches)); // If not it is a match
   }, [tournaments, matches]);
 
   useEffect(() => {
-    const arrayOfEvents = tournaments
-      .concat(matches)
-      .filter((event) => !event.tournament);
-
-      console.log(eventTypeEvents, gameTypeEvents);
-  }, [eventTypeEvents, gameTypeEvents]);
-
+    console.log(matchesToRender, tournamentsToRender, "to render");
+    return () => {};
+  }, [matchesToRender, tournamentsToRender]);
   return (
     <div className={styles.container}>
       <TopNavBar />
@@ -180,13 +185,24 @@ function Home({ tournaments, matches }) {
           </div>
 
           <div className={styles.eventGrid} ref={scrollBtnRef}>
-            {eventsToRender.map((tournament) => {
+            {tournamentsToRender.map((tournament) => {
               return (
                 <div
                   key={tournament.id}
                   onClick={() => router.push(`tournament/${tournament?.slug}`)}
                 >
                   <TournamentCard data={tournament} />
+                </div>
+              );
+            })}
+
+            {matchesToRender.map((match) => {
+              return (
+                <div
+                  key={match.id}
+                  onClick={() => router.push(`match/${match?.slug}`)}
+                >
+                  <TournamentCard data={match} />
                 </div>
               );
             })}

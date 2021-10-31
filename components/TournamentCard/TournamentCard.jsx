@@ -33,7 +33,7 @@ const TournamentCard = (props) => {
         }}
       >
         <span className={styles.details}>
-          <p>Perticipants: {props.data.numberOfParticipants}</p>{" "}
+          <p>Participants: {props.data.players?.length}</p>{" "}
           {props.data.matches?.length > 0 ? (
             <p>Matches: {props.data.matches.length}</p>
           ) : (

@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const MatchCard = (props) => {
     const { Meta } = Card;
-
+  console.log(props)
   return (
     <Card
       className={styles.card}
@@ -23,12 +23,7 @@ const MatchCard = (props) => {
       title={`Round: ${props.data.tournamentRound}`}
     />
       <span className={styles.details}>
-        <p>Perticipants: {props.data.numberOfParticipants}</p>{" "}
-        {props.data.matches?.length > 0 ? (
-          <p>Matches: {props.data.matches.length}</p>
-        ) : (
-          <></>
-        )}
+
       </span>
 
       <div className={styles.innerContent}>
