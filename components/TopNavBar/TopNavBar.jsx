@@ -9,11 +9,7 @@ const TopNavBar = () => {
   const { logout, user, isAuthenticated, loginWithPopup } = useAuth0();
 
   const createCMSPlayer = async () => {
-    await loginWithPopup();
-  };
-/* 
-  useEffect(async () => {
-    if (user || isAuthenticated) {
+    try {
       await fetch("/api/createPlayer", {
         method: "POST",
         headers: {
@@ -23,12 +19,20 @@ const TopNavBar = () => {
       })
         .then((response) => {
           console.log(response);
-          localStorage.setItem("token", "test");
+          localStorage.setItem("user-has-player", true);
         })
         .catch((error) => console.error(error));
+    } catch (e) {
+      console.error(e, "error");
     }
-  }, [user?.sub]);
- */
+  };
+
+  useEffect(async () => {
+    if (isAuthenticated && !localStorage.getItem("user-has-player")) {
+      createCMSPlayer();
+    }
+  }, [user]);
+
   return (
     <div className={styles.container}>
       <h2 onClick={() => router.push("/")}>THENEXUS</h2>
@@ -49,7 +53,7 @@ const TopNavBar = () => {
           <Button
             type="primary"
             color="secondary"
-            onClick={() => createCMSPlayer()}
+            onClick={() => loginWithPopup()}
           >
             Log In
           </Button>
